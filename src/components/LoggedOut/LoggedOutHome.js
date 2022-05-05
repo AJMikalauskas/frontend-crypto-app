@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../Layout/Layout";
+//import Layout from "../Layout/Layout";
 
-const LoggedOutHomePage = (props) => {
+const LoggedOutHome = (props) => {
 
     return (
         <div>
@@ -10,4 +10,4 @@ const LoggedOutHomePage = (props) => {
     )
 }
 
-export default LoggedOutHomePage;
+export default LoggedOutHome;

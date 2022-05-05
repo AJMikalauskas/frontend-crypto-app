@@ -1,6 +1,6 @@
 import React from "react";
 
-const SpecificCrypto = (props) => {
+const SpecificCryptoGraph = (props) => {
     const specificcryptoName = "Bitcoin";
     return (
         <div>
@@ -9,4 +9,4 @@ const SpecificCrypto = (props) => {
     );
 }
 
-export default SpecificCrypto;
+export default SpecificCryptoGraph;

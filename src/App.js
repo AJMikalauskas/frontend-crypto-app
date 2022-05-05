@@ -1,11 +1,13 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import LoadingSpinner from "./components/UI/LoadingSpinner";
 import Layout from "./components/Layout/Layout";
 import { Navigate, Route, Routes } from "react-router-dom";
 import './App.css';
-import LoggedOutHomePage from "./components/LoggedOut/LoggedOutHomePage";
-import LoggedInHomePage from "./components/LoggedIn/LoggedInHomePage";
-import SpecificCrypto from "./components/Cryptos/SpecificCrypto";
+
+// Lazy load the pages
+const LoggedOutHomePage  = React.lazy(() => import("./pages/LoggedOutHomePage"));
+const LoggedInHomePage  = React.lazy(() => import("./pages/LoggedInHomePage"));
+const SpecificCrypto  = React.lazy(() => import("./pages/SpecificCrypto"));
 
 function App() {
   return (
@@ -14,7 +16,7 @@ function App() {
         <div className='centered'>
           <LoadingSpinner/>
         </div>
-      }></Suspense>
+      }>
       <Routes>
         {/* This redirects to loggedout home page if any route that is given is whacko or not part of Routes ->
             Will Probably use ternary operator of (?:)  based on if used is logged in or out leading to loggedInHomePage or loggedOutHomePage*/}
@@ -25,8 +27,9 @@ function App() {
         {/* Routes of actually being logged in */}
         <Route path="/loggedInHomePage" element={<LoggedInHomePage/>}/>
         {/* Specfic Crypto Page, Not Overview/Home Page */}
-        <Route path="/loggedInHomePage/:usedId" element={<SpecificCrypto/>}/>
+        <Route path="/loggedInHomePage/:userId" element={<SpecificCrypto/>}/>
       </Routes>
+      </Suspense>
     </Layout>
   );
 }
