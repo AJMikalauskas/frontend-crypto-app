@@ -22,7 +22,8 @@ function App() {
             Will Probably use ternary operator of (?:)  based on if used is logged in or out leading to loggedInHomePage or loggedOutHomePage*/}
         <Route path="/" element={<Navigate replace to="/loggedOutHomePage"/>}/>
         {/* When not logged in home page, once logged in, redirect to logged in home page below */}
-        <Route path="/" exact element={<LoggedOutHomePage/>}/>
+        <Route path="/loggedOutHomePage" element={<LoggedOutHomePage/>}/>
+        <Route path="/Crypto" element={<p>Test Crypto Click</p>}/>
 
         {/* Routes of actually being logged in */}
         <Route path="/loggedInHomePage" element={<LoggedInHomePage/>}/>
