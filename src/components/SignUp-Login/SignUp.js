@@ -49,30 +49,34 @@ let navigate = useNavigate();
 
     try {
     //send POST request to google firebase backend
-    const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAOEdz8qvHiQMKD-HqYSqWUmOlZSM3YVUc", {
+    const response = await fetch("https://cryptowebsite-8580a-default-rtdb.firebaseio.com/users.json", {
         method: "POST",
-        headers: {
-            "Content-Type": "aaplication/json"
-        },
         body: JSON.stringify({
             email: emailRef.current.value,
             password: passwordRef.current.value,
-            returnSecureToken: true
+            firstName: firstNameRef.current.value,
+            lastName: lastNameRef.current.value
         }),
+        headers: {
+          "Content-Type": "application/json"
+      },
     });
     const data = await response.json();
     console.log(data);
-    console.log(data.code);
+    if(response.status === 200)
+    {
+      navigate("/loggedInHomePage");
+    }
+    //console.log(data.code);
 } catch(error) {
     //show in error modal?
     if (error.message.length > 0) {
         console.log(error.message);
         alert(error.message);
       } else {
-        alert("Authentication Failed!");
+        alert("Login Failed!");
       }
 }
-
   }
   return (
     <form onSubmit={formSubmitHandler}>
