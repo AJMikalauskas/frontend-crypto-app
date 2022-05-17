@@ -1,0 +1,125 @@
+.wrappingDiv1 {
+    display: flex;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    margin-left: calc(100vw - 100%);
+    margin-right: 0px;
+}
+
+.wrappingDiv2 {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    min-width: 1036px;
+    margin-bottom: 64px;
+}
+
+.main {
+    padding-top: 72px;
+    margin: 0 20px;
+    width: 1024px;
+}
+
+.divRow {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -6px;
+}
+
+.mainGraphTrendLists {
+    display: block;
+    padding-left: 6px;
+    padding-right: 6px;
+    flex: 0 0 66.6666666667%;
+    -webkit-box-flex: 0;
+}
+
+.mainGraphTrendListsSection1 {
+    display: flex;
+    flex-direction: column;
+    height: 349px;
+    margin-bottom: 60px;
+    /* transition: background .3s; */
+}
+
+.h1 {
+    margin: 10px 0px 24px;
+    color: rgb(0,0,0);
+    font-family: "Ubuntu";
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.33px;
+    line-height: 40px;
+    text-decoration: unset;
+}
+
+.portfolioMoneyGraph {
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: rgb(245, 248, 250);
+    border-radius: 4px;
+    display: flex;
+    height: 100%;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+.trendingLists {
+    margin-bottom: 60px;
+    -webkit-transition: background .3s;
+    transition: background .3s;
+}
+
+.trendingListsDiv1 {
+    border-bottom-style: none;
+    border-bottom-width: 1px;
+    padding: 0 2px;
+}
+
+.trendingListsDiv2 {
+    padding: 24px 0px;
+}
+
+.trendingLists header {
+    -webkit-box-align: center;
+    align-items: center;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: rgb(227, 233, 237);
+    display: flex;
+    flex-flow: row nowrap;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+}
+
+.trendingListsHeaderDiv1 {
+    -webkit-box-align: center;
+    align-items: center;
+    display: flex;
+}
+
+.trendingListsHeaderText {
+    margin: 0px;
+    color: rgb(0,0,0);
+    font-family: "Ubuntu";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: -0.33px;
+    line-height: 32px;
+    text-decoration: unset;
+}
+
+.tableOfCryptos {
+    margin-bottom: -8px;
+    /* max-height: 132px; */
+    /* overflow: hidden; */
+}

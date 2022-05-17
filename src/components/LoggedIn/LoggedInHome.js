@@ -1,11 +1,15 @@
 import React from "react";
 
+import LoggedInAppBar from './LoggedInAppBar';
+import LoggedInMain from "./LoggedInMain";
+
 const LoggedInHome = (props) => {
 
     return (
-        <div>
-            <h1> Logged In Home Page </h1>
-        </div>
+        <>
+        <LoggedInAppBar/>
+        <LoggedInMain/>
+        </>
     );
 }
 
