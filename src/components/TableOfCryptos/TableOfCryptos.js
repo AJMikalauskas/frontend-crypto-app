@@ -8,6 +8,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Chart from "./Chart";
+// import Chart from 'react-google-charts';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -126,7 +128,7 @@ const TableOfCryptos = () => {
             {coinsData.map((coin) => (
               <StyledTableRow key={coin.name}>
                 <StyledTableCell component="th" scope="row">
-                  {coin.name}
+                  {coin.market_cap_rank}
                 </StyledTableCell>
                 <StyledTableCell align="right">{coin.name}</StyledTableCell>
                 <StyledTableCell align="right">{formatPrice.format(coin.current_price)}</StyledTableCell>
@@ -135,7 +137,7 @@ const TableOfCryptos = () => {
                 <StyledTableCell align="right">{formatPercent(coin.price_change_percentage_7d_in_currency.toFixed(1))}</StyledTableCell>
                 <StyledTableCell align="right">{`$${coin.total_volume.toLocaleString('en-US')}`}</StyledTableCell>
                 <StyledTableCell align="right">{`$${coin.market_cap.toLocaleString('en-US')}`}</StyledTableCell>
-                <StyledTableCell align="right">{}</StyledTableCell>
+                <StyledTableCell align="right">{<Chart/>}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
