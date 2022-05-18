@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-google-charts";
 
-const MultiLineChart = () => {
+const MultiLineChart = (props) => {
   const [dataTest, setDataTest] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ const MultiLineChart = () => {
 
   useEffect(() => {
     fetch(
-      "https://coingecko.p.rapidapi.com/coins/bitcoin/market_chart?vs_currency=usd&days=1",
+      `https://coingecko.p.rapidapi.com/coins/${props.coinName}/market_chart?vs_currency=usd&days=7`,
       {
         method: "GET",
         headers: {
@@ -108,8 +108,13 @@ const MultiLineChart = () => {
     //     1: { curveType: 'function' },
     //   },
     legend: "none",
-    hAxis: { textPosition: 'none',  format: 'M/d/yy', },
-    vAxis: { textPosition: 'none' },
+    // textPosition: 'none',
+    hAxis: { textPosition: 'none', format: 'M/d/yy', baselineColor: "none" },
+    vAxis: { textPosition: 'none', baselineColor: "none" },
+    width:"400",
+    height:"210",
+    'chartArea': {'width': '100%', 'height': '80%'},
+    backgroundColor: 'none'
     // axes: {
     //     x: {
 
@@ -120,8 +125,6 @@ const MultiLineChart = () => {
     <div className="container mt-5">
       {/* <h2>React Google Line Chart Example</h2> */}
       <Chart
-        width={"500px"}
-        height={"210px"}
         chartType="LineChart"
         loader={<div>Loading Chart</div>}
         data={dataTest}

@@ -137,7 +137,8 @@ const TableOfCryptos = () => {
                 <StyledTableCell align="right">{formatPercent(coin.price_change_percentage_7d_in_currency.toFixed(1))}</StyledTableCell>
                 <StyledTableCell align="right">{`$${coin.total_volume.toLocaleString('en-US')}`}</StyledTableCell>
                 <StyledTableCell align="right">{`$${coin.market_cap.toLocaleString('en-US')}`}</StyledTableCell>
-                <StyledTableCell align="right">{<Chart/>}</StyledTableCell>
+                {/* Sent up props to define which crypto chart to show */}
+                <StyledTableCell align="right">{<Chart coinName={coin.id}/>}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
