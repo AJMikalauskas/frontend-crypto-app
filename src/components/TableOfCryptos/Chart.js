@@ -9,7 +9,7 @@ const MultiLineChart = (props) => {
       //, [0,0], [1,10.46], [2,20], [66666666663,30]
   //console.log(LineData);
   const LineData = ["Time", "Price"];
-  console.log(dataTest);
+  //! console.log(dataTest);
 
   function getUnixTimeValue(item) {
     let dateCnvrtr = new Date(item);
@@ -51,7 +51,7 @@ const MultiLineChart = (props) => {
       .then((data) => {
           const newArr = data.prices.map(timeAndPriceSolo => [new Date(timeAndPriceSolo[0]), timeAndPriceSolo[1]]);
           newArr.unshift(LineData);
-          console.log(newArr);
+          //console.log(newArr);
           setDataTest(newArr);
           //console.log(new Date(1652826241960));
           //console.log(data.prices[0]);
@@ -80,7 +80,7 @@ const MultiLineChart = (props) => {
     //setDataTest(withoutStringsOldData => [LineData,...withoutStringsOldData]);
   //setDataTest(dataTest.concat(LineData));
 //   function populateLineData(dataForCharts) {
-       console.log(dataTest);
+       //! IMPORTANT console.log(dataTest);
 //     const LineData = [["x", "Price"]];
 //     //console.log(dataForCharts.length);
 //     //console.log(dataForCharts[0][0]);

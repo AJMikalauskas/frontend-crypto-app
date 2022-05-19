@@ -87,6 +87,7 @@ const Search = styled('div')(({ theme }) => ({
 const LoggedInAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -102,6 +103,46 @@ const LoggedInAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const trackSearchInputHandler = async(event) => {
+    fetch(
+      'https://coingecko.p.rapidapi.com/coins/list',
+      {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Host": "coingecko.p.rapidapi.com",
+          "X-RapidAPI-Key":
+            "3fb132f0a4msh01884afa74b3096p1653c7jsnd2db1dce89cf",
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+          // does .then() run synchronously somewhat by waiting for response.json() and then moves ot next step of
+            // this data handling  and then if error, catch is called -> but also at the same time they say that 
+              // .then() runs asynchronously and asyc/await is just syntactic sugar
+          console.log(data);
+          console.log(event.target.value);
+          //const filteredData = data.map(cryptoCoin => cryptoCoin.name[0].toLowerCase() === event.target.value);
+          //? Should return about 1000 entries in filteredData -> use .filter() not .map() -> returned correct result
+            //? Need to make more versatile for further typing do beyond just [0] -> used slice string pre built method
+          const filteredData = data.filter(cryptoCoin => cryptoCoin.name.slice(0,event.target.value.length)
+                .toLowerCase() === event.target.value);
+          console.log(filteredData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      // .finally(() => {
+      //   setLoading(false);
+      // });
+  }
 
 //   const theme = useTheme();
 //   <ThemeProvider theme={darkTheme}>
@@ -121,93 +162,9 @@ const LoggedInAppBar = () => {
             <StyledInputBase
               placeholder="Search Cryptos…"
               inputProps={{ 'aria-label': 'search' }}
+              onChange={trackSearchInputHandler}
             />
           </Search>
-          {/* <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-            //   mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-            //   letterSpacing: '.3rem',
-              color: '#000',
-              textDecoration: 'none',
-              paddingLeft: "15px"
-            }}
-          >
-            Xanders Crypto/Invest Site
-          </Typography> */}
-
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
-          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            LOGO
-          </Typography> */}
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: '#000', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
 
           {/* <Box sx={{ flexGrow: 1 }}> */}
             <Tooltip title="Open settings">
@@ -244,4 +201,5 @@ const LoggedInAppBar = () => {
     // </ThemeProvider>
   );
 };
+
 export default LoggedInAppBar;
