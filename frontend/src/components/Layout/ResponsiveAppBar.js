@@ -16,7 +16,7 @@ import { Link, NavLink } from 'react-router-dom';
 import classes from "./ResponsiveAppBar.module.css";
 
 
-const pages = ['Crypto', 'Stocks', 'Learn'];
+const pages = ['Learn Crypto', 'Learn Stocks'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
@@ -133,11 +133,11 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            {/* <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Xander Mikalauskas" />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
             {/* <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
