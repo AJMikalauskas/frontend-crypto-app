@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Chart from "react-google-charts";
 
-const MultiLineChart = (props) => {
+const MyChart = (props) => {
   const [dataTest, setDataTest] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,7 @@ const MultiLineChart = (props) => {
 
   useEffect(() => {
     fetch(
-      `https://coingecko.p.rapidapi.com/coins/${props.coinName}/market_chart?vs_currency=usd&days=7`,
+      `https://coingecko.p.rapidapi.com/coins/${props.coinName}/market_chart?vs_currency=usd&days=${props.daysForChart}`,
       {
         method: "GET",
         headers: {
@@ -135,4 +135,4 @@ const MultiLineChart = (props) => {
   );
 };
 //}
-export default MultiLineChart;
+export default MyChart;

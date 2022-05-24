@@ -4,6 +4,7 @@ import styles from "./LoggedInMain.module.css";
 import stockBgImg from "../../images/stockBgImg.jpg";
 import TableOfCryptos from "../TableOfCryptos/TableOfCryptos";
 
+import {List as VirtualizedList} from "react-virtualized";
 // List of search results
 import Box from "@mui/material/Box";
 import List from "@mui/material/List";
@@ -16,18 +17,33 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import LoggedInAppBar from "./LoggedInAppBar";
 import axios from "axios";
+import MyChart from "../TableOfCryptos/Chart";
+
 
 const LoggedInMain = (props) => {
   const [searchDataShowing, setSearchDataShowing] = useState(false);
-  function searchUiAndDataHandler()
+  function searchUiAndDataHandler(expectedParamTrue)
   {
-      setSearchDataShowing(!searchDataShowing);
-      axios.get("http:localhost:3001/retrieve")
+      setSearchDataShowing(expectedParamTrue);
+      //axios.get("http:localhost:3001/retrieve")
   };
 
+  const [searchDataResults, setSearchDataResults] = useState([]);
+  function settingSearchResultsData (searchResults) {
+    //console.log(searchResults)
+    setSearchDataResults(searchResults);
+  }
+  //console.log(searchDataResults)
+
+  const watchlistDummyData = [{
+    symbol:"BTC",
+    name: "bitcoin"
+
+  }]
   return (
     <>
-    <LoggedInAppBar trackSearchInputHandler={searchUiAndDataHandler}/>
+    {/* trackSearchInputHandler={searchUiAndDataHandler} */}
+    <LoggedInAppBar showSearch={searchUiAndDataHandler} searchResults={settingSearchResultsData}/>
       <div className={styles.wrappingDiv1}>
         <div className={styles.wrappingDiv2}>
           <main className={styles.main}>
@@ -41,13 +57,13 @@ const LoggedInMain = (props) => {
               >
                 <nav aria-label="main mailbox folders">
                   <List>
-                    {props.marketCapsData.map((coin) => {
+                    {searchDataResults.map((coin) => 
                     <ListItem disablePadding>
                       <ListItemButton>
                         <ListItemText primary={coin.name} />
                       </ListItemButton>
                     </ListItem>
-                    })
+                    )
                     } 
                   </List>
                 </nav>
@@ -89,8 +105,43 @@ const LoggedInMain = (props) => {
                     </div>
                   </section>
                 </div>
+                <div className={styles.col5}>
+                  <div className={styles.sideBarContentSticky}>
+                    <div className={styles.sideBarStickyDiv1}>
+                      <div></div>
+                      <div className={styles.experimentalCard}>
+                        <div className={styles.expCardDiv1}>
+                          <VirtualizedList
+                            width={600}
+                            height={600}
+                            rowHeight={50}
+                            rowCount={watchlistDummyData.length}
+                            rowRenderer={({key, index, style, parent}) =>{
+                              const coin = watchlistDummyData[index];
+
+                              return <div key={key} styles={styles.watchlist}>
+                                <a className={styles.watchlistClickable} href="/loggedInHomePage">
+                                <div className={styles.watchlistCoinSymbol}>
+                                <div className={styles.watchlistCoinSymbolInnerDiv}>
+                                  <span>
+                                    {coin.symbol}
+                                  </span>
+                                </div>
+                                </div>
+                                <div className={styles.watchlistCoinGraph}>
+                                  <MyChart coinName={coin.name} daysForChart="1"/>
+                                </div>
+                                </a>
+                              </div>
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            {/* )} */}
+             )} 
           </main>
         </div>
       </div>

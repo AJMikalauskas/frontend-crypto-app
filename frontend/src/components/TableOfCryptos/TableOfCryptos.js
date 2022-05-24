@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Chart from "./Chart";
+import MyChart from "./Chart";
 // import Chart from 'react-google-charts';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -138,7 +138,7 @@ const TableOfCryptos = () => {
                 <StyledTableCell align="right">{`$${coin.total_volume.toLocaleString('en-US')}`}</StyledTableCell>
                 <StyledTableCell align="right">{`$${coin.market_cap.toLocaleString('en-US')}`}</StyledTableCell>
                 {/* Sent up props to define which crypto chart to show */}
-                <StyledTableCell align="right">{<Chart coinName={coin.id}/>}</StyledTableCell>
+                <StyledTableCell align="right">{<MyChart coinName={coin.id} daysForChart="7" />}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>

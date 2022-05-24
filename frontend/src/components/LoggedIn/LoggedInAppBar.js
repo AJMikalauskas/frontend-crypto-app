@@ -87,7 +87,8 @@ const LoggedInAppBar = (props) => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [allCoinsError, setAllCoinsError] = useState(null);
   const [marketCapError, setMarketCapError] = useState(null);
-  const [dataInDb, setDataInDb] = useState();
+  //const [dataInDb, setDataInDb] = useState();
+  const [filteredCoins, setFilteredCoins] = useState();
 
   // store top 5 market caps by useState()
   const [topFiveMarketCaps, setTopFiveMarketCaps] = useState();
@@ -125,6 +126,38 @@ const LoggedInAppBar = (props) => {
       "X-RapidAPI-Key": "3fb132f0a4msh01884afa74b3096p1653c7jsnd2db1dce89cf",
     },
   };
+
+  const findCoinsBySearchInLimitedDb = (event) => {
+    //console.log(event.target.value.length);
+    if(event.target.value.length === 0)
+    {
+      props.showSearch(false);
+    }
+    if(event.target.value.length  === 1) 
+    {
+      event.preventDefault();
+      console.log(event.target.value);
+      //let idSendingUp = {id: event.target.value};
+      fetch("/coinsData").then(res => {
+        if(res.ok) {
+          return res.json()
+        }
+      })
+      .then(jsonRes => {
+        props.searchResults(jsonRes.filter(coin => coin.name[0].toLowerCase() === event.target.value));
+        //console.log(filteredCoins);
+        //props.searchResults(filteredCoins);
+      });
+      props.showSearch(true);
+    }
+    else {
+      props.searchResults(prevState => prevState.filter(coin => coin.name.toLowerCase().substr(0,event.target.value.length) === event.target.value));
+    }
+
+
+    console.log(event.target.value);
+  //axios.get()
+  }
 
   const trackSearchInputHandler =  (event) => {
  //   props.showSearchResults(true);
@@ -176,7 +209,8 @@ const LoggedInAppBar = (props) => {
 
     //     // ? Need to change this up a bit considering the URI can only be around 9000 characters with just the ids
     //       //? ${finalUri || joinedIDString}
-    //     return fetch(
+    //     return 
+    // fetch(
     //       `https://coingecko.p.rapidapi.com/coins/markets?vs_currency=usd&ids=&order=market_cap_desc`,
     //       fetchGetDataOptions
     //     )
@@ -204,7 +238,7 @@ const LoggedInAppBar = (props) => {
     //         console.error("Error fetching data: ", error);
     //         setMarketCapError(error);
     //       });
-    //   })
+     // })
     //   .catch((error) => {
     //     console.error("Error fetching data: ", error);
     //     setAllCoinsError(error);
@@ -217,28 +251,29 @@ const LoggedInAppBar = (props) => {
   };
 
   console.log(topFiveMarketCaps);
+  console.log(filteredCoins);
   //props.marketCaps(topFiveMarketCaps);
 
   //   const theme = useTheme();
   //   <ThemeProvider theme={darkTheme}>
-  const getDataToDb = () => {
-    // const test= [{
-    //   id: "test",
-    //   symbol: "test",
-    //   name: "test",
-    //   image: "test",
-    //   currentPrice: 123
-    // },
-    // {
-    //   id: "test1",
-    //   symbol: "test1",
-    //   name: "test1",
-    //   image: "test1",
-    //   currentPrice: 1234
-    // }]
-    axios.post("http://localhost:3001/create", dataInDb);
-    //const response = await fetch("http://localhost:3001/create", dataInDb);
-  }
+  // const getDataToDb = () => {
+  //   // const test= {
+  //   //   id: "test",
+  //   //   symbol: "test",
+  //   //   name: "test",
+  //   //   image: "test",
+  //   //   currentPrice: 123
+  //   // };
+  //   // {
+  //   //   id: "test1",
+  //   //   symbol: "test1",
+  //   //   name: "test1",
+  //   //   image: "test1",
+  //   //   currentPrice: 1234
+  //   // }]
+  //   axios.post("http://localhost:3001/create", dataInDb);
+  //   //const response = await fetch("http://localhost:3001/create", dataInDb);
+  // }
   return (
     <AppBar position="fixed" sx={{ background: "#defade" }}>
       <Container maxWidth="xl">
@@ -254,7 +289,7 @@ const LoggedInAppBar = (props) => {
             <StyledInputBase
               placeholder="Search Cryptos…"
               inputProps={{ "aria-label": "search" }}
-              onChange={props.trackSearchInputHandler}
+              onChange={findCoinsBySearchInLimitedDb}
               //onClick={props.showSearchResults}
             />
           </Search>
@@ -282,9 +317,10 @@ const LoggedInAppBar = (props) => {
           </Menu> */}
           
 
-            <Button variant="contained" >
+          {/* onClick={getDataToDb} */}
+            {/* <Button variant="contained" >
               Show Top 5 cryptos
-            </Button>
+            </Button> */}
 
           {/* <Box sx={{ flexGrow: 1 }}> */}
           <Tooltip title="Open settings">
