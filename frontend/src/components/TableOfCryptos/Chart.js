@@ -111,10 +111,10 @@ const MyChart = (props) => {
     // textPosition: 'none',
     hAxis: { textPosition: 'none', format: 'M/d/yy', baselineColor: "none" },
     vAxis: { textPosition: 'none', baselineColor: "none" },
-    width:"400",
-    height:"210",
+    width: `${props.width}`,
+    height: `${props.height}`,
     'chartArea': {'width': '100%', 'height': '80%'},
-    backgroundColor: 'none'
+    //backgroundColor: 'none'
     // axes: {
     //     x: {
 

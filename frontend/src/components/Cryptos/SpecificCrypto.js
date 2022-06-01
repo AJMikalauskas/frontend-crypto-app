@@ -4,15 +4,19 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListSubheader from '@mui/material/ListSubheader';
 import LoggedInAppBar from "../LoggedIn/LoggedInAppBar";
-import { useNavigate } from "react-router-dom";
-import styles from "../LoggedIn/LoggedInMain.module.css";
+import { useNavigate, useParams } from "react-router-dom";
+import styles from "./SpecificCrypto.module.css";
 import ListItemButton from "@mui/material/ListItemButton";
 //import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import MyChart from "../TableOfCryptos/Chart";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const SpecificCrypto = (props) => {
     let navigate = useNavigate();
-
+    let params = useParams();
 
     const [searchDataShowing, setSearchDataShowing] = useState(false);
     function searchUiAndDataHandler(expectedParamTrue) {
@@ -25,7 +29,9 @@ const SpecificCrypto = (props) => {
       //console.log(searchResults)
       setSearchDataResults(searchResults);
     }
-
+    
+    console.log(params.coinName);
+    const capitalizedCoinName = params.coinName[0].toUpperCase() + params.coinName.substring(1);
     return (
         <>
             {/* <h1 style={{ marginTop: "500px"}}>{specificcryptoName}</h1> */}
@@ -35,7 +41,8 @@ const SpecificCrypto = (props) => {
       />
       <div className={styles.wrappingDiv1}>
         <div className={styles.wrappingDiv2}>
-          <main className={styles.main}>
+          <Container className={styles.main}>
+            <Row className={styles.divRow}>
             {searchDataShowing ? (
               <Box
                 sx={{
@@ -57,43 +64,31 @@ const SpecificCrypto = (props) => {
                 </nav>
               </Box>
             ) : (
-              <div className={styles.divRow}>
-                <div className={styles.mainGraphTrendLists}>
+              <>
+              <Col xs={12}>
+                <h1 className={styles.nameOfCoin}>{capitalizedCoinName}</h1>
                   <section className={styles.mainGraphTrendListsSection1}>
-                    {/* <h1 className={styles.h1}>Welcome To Your Portfolio</h1>
+                    <header className={styles.headerSection1}>
+                      <div className={styles.marketPrice}>
+                        <h2 styles={styles.marketPriceh2}>
+                          <span>
+                            Test
+                          </span>
+                        </h2>
+                      </div>
+                    </header>
                     <div className={styles.portfolioMoneyGraph}>
-                      <img
-                        alt="stockImgBg"
-                        src={stockBgImg}
-                        height="200px"
-                        width="400px"
-                      />
-                    </div> */}
+                    <MyChart coinName={params.coinName} daysForChart="1" height="196" width="676"/>
+                    </div>
                   </section>
                   <section className={styles.trendingLists}>
                     <div className={styles.trendingListsDiv1}>
                       <div className={styles.trendingListsDiv2}>
-                        <header>
-                          <div>
-                            <div className={styles.trendingListsHeaderDiv1}>
-                              <h3>
-                                <span
-                                  className={styles.trendingListsHeaderText}
-                                >
-                                  Trending Cryptos
-                                </span>
-                              </h3>
-                            </div>
-                          </div>
-                        </header>
-                        {/* <div className={styles.tableOfCryptos}>
-                          <TableOfCryptos />
-                        </div> */}
                       </div>
                     </div>
                   </section>
-                </div>
-                <div className={styles.col5}>
+                </Col>
+                <Col xs={5}>
                   <div className={styles.sideBarContentSticky}>
                     <div className={styles.sideBarStickyDiv1}>
                       <div></div>
@@ -181,10 +176,12 @@ const SpecificCrypto = (props) => {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Col>
+              {/* </div> */}
+              </>
             )}
-          </main>
+            </Row>
+          </Container>
         </div>
       </div>
         </>

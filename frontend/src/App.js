@@ -10,6 +10,7 @@ const LoggedOutHomePage  = React.lazy(() => import("./pages/LoggedOutHomePage"))
 const LoggedInHomeAppBarPage  = React.lazy(() => import("./pages/LoggedInHomeAppBarPage"));
 const LoggedInHomePage  = React.lazy(() => import("./pages/LoggedInHomePage"));
 const SpecificCryptoPage  = React.lazy(() => import("./pages/SpecificCryptoPage"));
+const TestColumnsPage  = React.lazy(() => import("./pages/TestColumnsPage"));
 
 function App() {
   return (
@@ -34,7 +35,7 @@ function App() {
         {/* Specific Crypto Page, Not Overview/Home Page */}
         <Route path="portfolio" element={<LoggedInHomePage />} />
          <Route path=":coinName" element={<SpecificCryptoPage/>}/>
-
+         {/* <Route path="test" element={<TestColumnsPage/>}/> */}
         </Route>
 
         {/* Such example below would be for what I did with app bar, going to test out anyway

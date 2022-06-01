@@ -22,6 +22,7 @@
     "mongoose": "^6.3.4",
     "nodemon": "^2.0.16",
     "react": "^18.1.0",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
     "react-google-charts": "^4.0.0",
     "react-redux": "^8.0.1",
@@ -30,6 +31,8 @@
     "react-typewriter-effect": "^1.1.0",
     "react-typical": "^0.1.3",
     "react-virtualized": "^9.22.3",
+    "react-vis": "^1.11.7",
+    "recharts": "^2.1.10",
     "redux": "^4.2.0",
     "typewriter-effect": "^2.18.2",
     "web-vitals": "^2.1.4"

@@ -22,11 +22,12 @@ import LoggedInAppBar from "./LoggedInAppBar";
 import axios from "axios";
 import MyChart from "../TableOfCryptos/Chart";
 import { Avatar, ListItemAvatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const LoggedInMain = (props) => {
   // Navigating to Different URL
   let navigate = useNavigate();
+  let params = useParams();
 
 
   const [searchDataShowing, setSearchDataShowing] = useState(false);
@@ -62,6 +63,7 @@ const LoggedInMain = (props) => {
     image: "https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png?1547034700"
   },
 ]
+console.log(params.coinName)
 
  // let watchlistDummyData = ["Bob", "Joe", "Sally", "Herb", "Grey"];
 // const [coinImgStr,setCoinImgStr] = useState();
@@ -139,12 +141,7 @@ const LoggedInMain = (props) => {
                   <section className={styles.mainGraphTrendListsSection1}>
                     <h1 className={styles.h1}>Welcome To Your Portfolio</h1>
                     <div className={styles.portfolioMoneyGraph}>
-                      <img
-                        alt="stockImgBg"
-                        src={stockBgImg}
-                        height="200px"
-                        width="400px"
-                      />
+                    {/* <MyChart coinName={params.} daysForChart="7" /> */}
                     </div>
                   </section>
                   <section className={styles.trendingLists}>
@@ -163,9 +160,9 @@ const LoggedInMain = (props) => {
                             </div>
                           </div>
                         </header>
-                        <div className={styles.tableOfCryptos}>
+                        {/* <div className={styles.tableOfCryptos}>
                           <TableOfCryptos />
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </section>
@@ -242,7 +239,7 @@ const LoggedInMain = (props) => {
                               </ListItem> */}
                              {watchlistDummyData.map((coin) => (
                                // retrieveOnlyImages(coin.id) &&
-                               <ListItem disablePadding onClick={() => navigate(`${coin.id}`)}>
+                               <ListItem disablePadding onClick={() => navigate(`/loggedInHome/${coin.id}`)}>
                                 <ListItemButton>
                                   <ListItemText primary={coin.name} />
                                 <ListItemAvatar>
