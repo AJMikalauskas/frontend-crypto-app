@@ -94,4 +94,10 @@ router.route("/coinsData").get((req,res) => {
     // })
 })
 
+router.route("/coinsImages").get((req,res) => {
+    // Gets all coins, this is currently the best way to do so
+     Coin.find()
+         .then(foundCoins => res.json(foundCoins));
+})
+
 module.exports = router;
