@@ -7,8 +7,9 @@ import './App.css';
 // Lazy load the pages
 const SignUpPage  = React.lazy(() => import("./pages/SignUpPage"));
 const LoggedOutHomePage  = React.lazy(() => import("./pages/LoggedOutHomePage"));
+const LoggedInHomeAppBarPage  = React.lazy(() => import("./pages/LoggedInHomeAppBarPage"));
 const LoggedInHomePage  = React.lazy(() => import("./pages/LoggedInHomePage"));
-const SpecificCrypto  = React.lazy(() => import("./pages/SpecificCrypto"));
+const SpecificCryptoPage  = React.lazy(() => import("./pages/SpecificCryptoPage"));
 
 function App() {
   return (
@@ -29,10 +30,25 @@ function App() {
         <Route path="Crypto" element={<p>Test Crypto Click</p>}/>
 
         {/* Routes of actually being logged in */}
-        <Route path="loggedInHomePage" element={<LoggedInHomePage/>}>
-        {/* Specfic Crypto Page, Not Overview/Home Page */}
-          <Route path=":userId" element={<SpecificCrypto/>}/>
+        <Route path="loggedInHome" element={<LoggedInHomeAppBarPage/>} >
+        {/* Specific Crypto Page, Not Overview/Home Page */}
+        <Route path="portfolio" element={<LoggedInHomePage />} />
+         <Route path=":coinName" element={<SpecificCryptoPage/>}/>
+
         </Route>
+
+        {/* Such example below would be for what I did with app bar, going to test out anyway
+          The nav bar could be at the top , one nested route could be the home page, non dynamic URL
+          The other nested route could be dynamic crypto and it would jsut replace the middle content.
+          Testing Nested Routes with combined JSX - Success, need to use outlet keywrod in order for the parent
+          route to show the child routes JSX
+              <Routes>
+      <Route path="loggedInAppBar" element={<LoggedInAppBar />}>, use redirect to the below home page route if appbar just searched up
+        <Route path="loggedInHomePage" element={<LoggedInHomePage />} />
+        <Route path="crypto/:cryptoName" element={<SpecificCryptoPage />} />
+      </Route>
+    </Routes>
+        */}
       </Routes>
       </Suspense>
   );
