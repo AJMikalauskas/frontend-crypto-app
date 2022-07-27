@@ -18,6 +18,7 @@ mongoose.connect("mongodb+srv://Xander_Mik:Isaiah558@passportapp.a92tx.mongodb.n
 
 //require route
 app.use("/", require("./routes/coinRoute"));
+app.use("/", require("./routes/userRoute"));
 
 app.listen(3001, function() {
 

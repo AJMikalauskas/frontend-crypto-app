@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
+import AuthContext from "../../context/AuthProvider";
 import styles from "./SignUp.module.css";
 import {
     Button,
@@ -15,6 +16,8 @@ import technoPic from "../../images/technoBgSignUp.jpg";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../features/userSlice";
 
 const SignUp = () => {
     // Add Refs so that data inputted into the input/text fields is tracked and sent up once form is submitted  
@@ -23,8 +26,9 @@ const SignUp = () => {
     const lastNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
-    //Navigate to different pages including the history back button, sign in, not sign up page,
+    // Navigate to different pages including the history back button, sign in, not sign up page,
 let navigate = useNavigate();
+
   //  JSX conditionally show img div based on current window width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const resizeListener = () => {
@@ -35,49 +39,48 @@ let navigate = useNavigate();
   window.addEventListener("resize", resizeListener);
 
 
+
 //   Need to add type of submit to mui react button for it to call form submit.
   const formSubmitHandler = async(event) => {
      event.preventDefault();
-     //console.log(testInputRef);
-     //console.log(firstNameRef);
-     console.log(firstNameRef.current.value);
-     console.log(lastNameRef.current.value);
-     console.log(emailRef.current.value);
-     console.log(passwordRef.current.value);
-    //navigate("/loggedInHomePage");
 
-
-    try {
-    //send POST request to google firebase backend
-    const response = await fetch("https://cryptowebsite-8580a-default-rtdb.firebaseio.com/users.json", {
-        method: "POST",
-        body: JSON.stringify({
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-            firstName: firstNameRef.current.value,
-            lastName: lastNameRef.current.value
-        }),
-        headers: {
-          "Content-Type": "application/json"
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-    if(response.status === 200)
-    {
-      navigate("/loggedInHomePage");
-    }
-    //console.log(data.code);
-} catch(error) {
-    //show in error modal?
-    if (error.message.length > 0) {
-        console.log(error.message);
-        alert(error.message);
-      } else {
-        alert("Login Failed!");
-      }
-}
-  }
+    // new user to send up to redux action of adding a new user.
+    const newUser = {firstName: firstNameRef.current.value, lastName: lastNameRef.current.value, 
+      email: emailRef.current.value, password: passwordRef.current.value}
+    // The below code sends a POST request to the backend mongoDB server and adds document/user to the users collection.
+            //       try {
+                 //send POST request to google firebase backend -> https://cryptowebsite-8580a-default-rtdb.firebaseio.com/users.json
+                 // send POST request to MongoDB users -> set in the setupProxy.js file
+                   // Needed to adjust fetch for GET and POST requests as they are diffferent.
+            //     const response = await fetch("http://localhost:3001/createUser", {
+            //         method: "POST",
+            //         body: JSON.stringify({
+            //             email: newUser.email,
+            //             password: newUser.password,
+            //             firstName: newUser.firstName,
+            //             lastName: newUser.lastName
+            //         }),
+            //         headers: {
+            //           "Content-Type": "application/json"
+            //       },
+            //     });
+            //     const data = await response.json();
+            //     console.log(data);
+            //     // if(response.status === 200)
+            //     // {
+            //     //   navigate("/loggedInHomePage");
+            //     // }
+            //     //console.log(data.code);
+            // } catch(error) {
+            //     //show in error modal?
+            //     if (error.message.length > 0) {
+            //         console.log(error.message);
+            //         alert(error.message);
+            //       } else {
+            //         alert("Login Failed!");
+            //       }
+            // }
+        }
   return (
     <form onSubmit={formSubmitHandler}>
       <div className={styles.mostImportantGridDiv}>

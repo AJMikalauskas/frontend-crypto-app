@@ -4,22 +4,16 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
-import {configureStore} from "@reduxjs/toolkit";
-//import store from './store';
-const store = configureStore({
-  reducer: {
-
-  }
-})
+// created and exported it from the AuthProvider.js file, need to to provide children pass in and value param.
+import { AuthProvider } from "./context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Provider store={store}>
+  <AuthProvider>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </Provider>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
