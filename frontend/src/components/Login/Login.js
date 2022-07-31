@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
-import styles from "./SignUp.module.css";
+import styles from "./Login.module.css";
 import {
   Button,
   FormControl,
@@ -19,8 +19,9 @@ import AuthContext from "../../context/AuthProvider";
 import axios from "../../api/axios";
 const LOGIN_URL = '/auth';
 
-const SignUpWithAuth = () => {
-    
+const Login = () => {
+  
+  // Regex Validation 
   const firstNameRef = useRef();
   const errRef = useRef();
 
@@ -29,6 +30,7 @@ const SignUpWithAuth = () => {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
 
   // Success or Fail Login States -> error message is for specific requirements in password and email
   const [errMsg, setErrMsg] = useState("");
@@ -243,7 +245,7 @@ const {setAuth} = useContext(AuthContext);
                 <div className={styles.loginLink}>
                   <div>
                     <span className={styles.loginLinkText}>
-                      Already Started?
+                      Already have an account? 
                     </span>
                     <div className={styles.loginLinkLink}>
                       <Link
@@ -254,7 +256,7 @@ const {setAuth} = useContext(AuthContext);
                           navigate("/signUp");
                         }}
                       >
-                        Log in to complete your application
+                        Login here
                       </Link>
                     </div>
                   </div>
@@ -288,4 +290,4 @@ const {setAuth} = useContext(AuthContext);
   );
 };
 
-export default SignUpWithAuth;
+export default Login;
