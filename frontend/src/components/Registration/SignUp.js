@@ -14,6 +14,8 @@ import logo from "../../images/logoImg.jpg";
 import technoPic from "../../images/technoBgSignUp.jpg";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import axios from "../../api/axios";
@@ -53,6 +55,8 @@ const SignUp = () => {
   const [lastnameFocus, setLastnameFocus] = useState(false);
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  //const errPwInput = (password && passwordFocus && !validPassword) ? true : false;
 
 
   // Success or Fail Login States -> error message is for specific requirements in password and email
@@ -115,55 +119,27 @@ const SignUp = () => {
   window.addEventListener("resize", resizeListener);
 
   // Object destructure the setAuth from the AuthContext using the useContext() hook
-// const {setAuth} = useContext(AuthContext);
-//   // Handles inputs of when form is submitted.
-//   const formSubmitHandler = async (event) => {
-//     event.preventDefault();
-//     // new user to send up to axios/node backend of adding a new user. Uses ES6 feature of same property name as same value name.
-//     const newUser = { firstname, lastname, email, password };
+const {setAuth} = useContext(AuthContext);
+  // Handles inputs of when form is submitted.
+  const formSubmitHandler = async (event) => {
+    event.preventDefault();
+    // JS hack in case?
+    const v1 = NAME_REGEX.test(firstname) && NAME_REGEX.test(lastname);
+    const v2 = EMAIL_REGEX.test(email);
+    const v3 = PASSWORD_REGEX.test(password);
+    if(!v1 || !v2 || !v3) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
 
-//     try {
-//         // Options added are to pass in body/data as JSON and withCredentials as true.
-//         const response = await axios.post(LOGIN_URL,
-//             JSON.stringify(newUser),
-//             {
-//                 headers: {'Content-Type': 'application/json'},
-//                 withCredentials: true
-//             })
-//         // axios handles the response already unlike fetch and converts from JSON; converted back to JSON below
-//             // If response isn't null it will try to access the data property within, else if it is null it won't do something that will result in error
-//         console.log(JSON.stringify(response?.data));
-//         // Optional chaining by(?) -> Codes/Roles are made up, not sure exactly what they are.
-//         const accessToken  = response?.data?.accessToken;
-//         const roles = response?.data?.roles;
-//         // Set Auth object to the values we get back from response
-//         setAuth({ firstname, lastname, email, password, roles, accessToken})
-//     // If all goes well, form is submitted successfully and change state; set all inputs to empty strings too
-//     setFirstname("");
-//     setLastname("");
-//     setEmail("");
-//     setPassword("");
-//     setSuccess(true);
-//     } catch(err) {
-//         // Handle errors using optional chaining(?), probably no reason for the optional chaining in the 1st if; May be good
-//             // due to the fact it does 2 things in 1, so if the err passes the optional chaing, the else if doesn't have to contain the err with
-//                 // optional chaing(?)
-//         if(!err?.response)
-//         {
-//             setErrMsg("No Server Response");
-//         } else if(err.response?.status === 400)
-//         { // optional chaining to check if there is a response and if so will try to access the property of status. 
-//             setErrMsg("Missing Username or Password")
-//         } else if(err.response?.status === 401) 
-//         {
-//             setErrMsg("Unauthorized")
-//         } else {
-//             setErrMsg("Login Failed")
-//         }
-//         // So the user can read the error message, focus the error paragraph.
-//         errRef.current.focus();
-//     }
-//   };
+
+    // new user to send up to axios/node backend of adding a new user. Uses ES6 feature of same property name as same value name.
+    const newUser = { firstname, lastname, email, password };
+
+    // success when sent to server
+    console.log(firstname, lastname, email, password);
+    setSuccess(true);
+}
 
   return (
     <section>
@@ -176,7 +152,7 @@ const SignUp = () => {
       >
         {errMsg}
       </p>
-      <form onSubmit={console.log("Test")}>
+      <form onSubmit={formSubmitHandler}>
         <div className={styles.mostImportantGridDiv}>
           <header className={styles.head}>
             <div className={styles.div1}>
@@ -228,7 +204,7 @@ const SignUp = () => {
                         </span> */}
                       <TextField
                       // Ignore error for this.
-                        error={firstnameFocus && firstname && !validFirstname}
+                        error={(firstnameFocus && firstname && !validFirstname) ? true : false}
                         type="text"
                         id="firstname"
                         label="First name"
@@ -258,7 +234,7 @@ const SignUp = () => {
                     {/* <label>Lastname:</label> */}
                     <div>
                       <TextField
-                        error={firstnameFocus && firstname && !validFirstname}
+                        error={(lastnameFocus && lastname && !validLastname) ? true : false}
                         id="lastname"
                         label="Last name"
                         variant="outlined"
@@ -266,12 +242,12 @@ const SignUp = () => {
                         autoComplete="off"
                         onChange={(e) => setLastname(e.target.value)}
                         value={lastname}
-                        aria-invalid={validFirstname ? "false": "true"}
+                        aria-invalid={validLastname ? "false": "true"}
                         aria-describedby="uidnote"
                         onFocus={()=> setLastnameFocus(true)}
                         onBlur={()=> setLastnameFocus(false)}
                         required
-                      ></TextField>
+                      />
                       <p id="uidnote" className={lastnameFocus && lastname && !validLastname ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
                            2 to 15 characters.<br/>
@@ -283,53 +259,69 @@ const SignUp = () => {
                 <div className={styles.inputField3}>
                   <div>
                     <TextField
-                      id="outlined-emailAddress"
-                      label="Email address"
-                      variant="outlined"
-                      type="text"
-                      autoComplete="off"
-                      onChange={(e) => setEmail(e.target.value)}
-                      value={email}
-                      required
-                    ></TextField>
+                     error={(emailFocus && email && !validEmail) ? true: false}
+                     id="email"
+                     label="Email"
+                     variant="outlined"
+                     type="text"
+                     autoComplete="off"
+                     onChange={(e) => setEmail(e.target.value)}
+                     value={email}
+                     aria-invalid={validEmail ? "false": "true"}
+                     aria-describedby="uidnote"
+                     onFocus={()=> setEmailFocus(true)}
+                     onBlur={()=> setEmailFocus(false)}
+                     required
+                    />
+                    <p id="uidnote" className={emailFocus && email && !validEmail ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                           Please type in a valid email.<br/>
+                           Must Include correct endings(.com, .edu, etc.)
+                      </p>
                   </div>
                 </div>
                 <FormControl
                   sx={{ width: "31ch", marginTop: "20px" }}
                   variant="outlined"
                 >
-                  {/* <div> */}
-                  {/* <VisibilityOffIcon/> */}
+
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password
+                    {(password && validPassword) ? <CheckCircleIcon className="valid"/> : !password ? null : <CancelIcon className="invalid"/>  }
                   </InputLabel>
                   <OutlinedInput
-                    id="outlined-adornment-password"
-                    type="password"
-                    // type={values.showPassword ? 'text' : 'password'}
-                    // value={values.password}
-                    // onChange={handleChange('password')}
+                    label="Password"
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    error={(password && passwordFocus && !validPassword) ? true : false}
+                    autoComplete="off"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    aria-invalid={validPassword ? "false": "true"}
+                    aria-describedby="uidnote"
+                    onFocus={()=> setPasswordFocus(true)}
+                    onBlur={()=> setPasswordFocus(false)}
+                    required
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
-                          //   onClick={handleClickShowPassword}
-                          //   onMouseDown={handleMouseDownPassword}
+                          onClick={() => setShowPassword(s => !s)}
                           edge="end"
                         >
-                          {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
-                          <VisibilityOff />
+                           {showPassword ? <Visibility /> : <VisibilityOff />}
                         </IconButton>
                       </InputAdornment>
                     }
-                    label="Password"
-                    autoComplete="off"
-                    onChange={(e) => setPassword(e.target.value)}
-                    value={password}
-                    required
                   />
-                  {/* </div> */}
                 </FormControl>
+                <p id="uidnote" className={passwordFocus && password && !validPassword ? "instructions" : "offscreen"}>
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                           8 to 24 characters<br/>
+                           Must include uppercasse and lowercase letters, a number and a special
+                           character.<br/>
+                           Allowed special characters: <strong>!@#$%</strong>
+                      </p>
                 <div className={styles.loginLink}>
                   <div>
                     <span className={styles.loginLinkText}>
@@ -363,10 +355,11 @@ const SignUp = () => {
                     type="submit"
                     variant="contained"
                     sx={{ backgroundColor: "#2e7d32", borderRadius: "15px" }}
+                    disabled={!validFirstname || !validLastname || !validEmail || !validPassword ? true : false}
                     // Put router link and navigation here?
-                    href="#"
+                   // href="#"
                   >
-                    continue
+                    Sign Up
                   </Button>
                 </div>
               </div>
@@ -375,7 +368,7 @@ const SignUp = () => {
         </div>
       </form>
     </section>
-  )
-}
+  );
+};
 
 export default SignUp;
