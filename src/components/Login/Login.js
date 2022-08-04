@@ -6,28 +6,27 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
-  Link,
   OutlinedInput,
   TextField,
+  Link
 } from "@mui/material";
 import logo from "../../images/logoImg.jpg";
 import technoPic from "../../images/technoBgSignUp.jpg";
+import loginSidePic from "../../images/technoWaves.jpg"
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthProvider";
 import axios from "../../api/axios";
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 const Login = () => {
   
   // Regex Validation 
-  const firstNameRef = useRef();
+  const emailRef = useRef();
   const errRef = useRef();
 
   // This is for on keystroke tracking and allowing us to check if password and email meet specific requirements
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -41,7 +40,7 @@ const Login = () => {
 
   // To focus the first name input on load of page
   useEffect(() => {
-    firstNameRef.current.focus();
+    emailRef.current.focus();
   });
 
   // Stop error message from showing if requirements are met in password and email
@@ -62,12 +61,12 @@ const {setAuth} = useContext(AuthContext);
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     // new user to send up to axios/node backend of adding a new user. Uses ES6 feature of same property name as same value name.
-    const newUser = { firstName, lastName, email, password };
+    //const newUser = { email, password };
 
     try {
         // Options added are to pass in body/data as JSON and withCredentials as true.
         const response = await axios.post(LOGIN_URL,
-            JSON.stringify(newUser),
+            JSON.stringify({email, password}),
             {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
@@ -77,16 +76,18 @@ const {setAuth} = useContext(AuthContext);
         console.log(JSON.stringify(response?.data));
         // Optional chaining by(?) -> Codes/Roles are made up, not sure exactly what they are.
         const accessToken  = response?.data?.accessToken;
+        // Could be better, need to change backend for better access to things
         const roles = response?.data?.roles;
         // Set Auth object to the values we get back from response
-        setAuth({ firstName, lastName, email, password, roles, accessToken})
+        setAuth({ email, password, roles, accessToken})
     // If all goes well, form is submitted successfully and change state; set all inputs to empty strings too
-    setFirstName("");
-    setLastName("");
     setEmail("");
     setPassword("");
-    setSuccess(true);
+    //setSuccess(true);
+    navigate("/loggedInHome")
     } catch(err) {
+      // setEmail("");
+      // setPassword("");
         // Handle errors using optional chaining(?), probably no reason for the optional chaining in the 1st if; May be good
             // due to the fact it does 2 things in 1, so if the err passes the optional chaing, the else if doesn't have to contain the err with
                 // optional chaing(?)
@@ -98,7 +99,7 @@ const {setAuth} = useContext(AuthContext);
             setErrMsg("Missing Username or Password")
         } else if(err.response?.status === 401) 
         {
-            setErrMsg("Unauthorized")
+            setErrMsg("Invalid email or password. Please try again.")
         } else {
             setErrMsg("Login Failed")
         }
@@ -128,20 +129,20 @@ const {setAuth} = useContext(AuthContext);
             </div>
             <div className={styles.div3}>
               <div>
-                <h2 className={styles.div3h2}>Create Login Info</h2>
+                <h2 className={styles.div3h2}>Login Here</h2>
               </div>
               <div className={styles.div4}>
                 <span>
-                  We'll need your name, email address, and a unique password.
-                  You'll use this login to access your portfolio.
+                  We'll need your email address and password.
                 </span>
               </div>
               {windowWidth > 768 && (
                 <div>
                   <img
-                    alt="technoPic"
-                    src={technoPic}
+                    alt="loginSidePic"
+                    src={loginSidePic}
                     height="300px"
+                    width="600px"
                     className={styles.technoImg}
                   />
                 </div>
@@ -158,40 +159,6 @@ const {setAuth} = useContext(AuthContext);
                     Enter your first and last name which is on your ID.
                   </span>
                 </div>
-                <div className={styles.maindiv4}>
-                  {/* Probably put refs to store data of these text field inputs */}
-                  <div className={styles.maindiv4div1}>
-                    <div>
-                      <TextField
-                        id="outlined-firstName"
-                        label="First name"
-                        variant="outlined"
-                        type="text"
-                        autoComplete="off"
-                        ref={firstNameRef}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        // Crucial if you are going to clear inputs on submission, put value as useState() -> 2-way binding
-                        value={firstName}
-                        required
-                      ></TextField>
-                    </div>
-                  </div>
-                  {/* No need for refs in these next inputs as they aren't going to be focused */}
-                  <div className={styles.maindiv4div2}>
-                    <div>
-                      <TextField
-                        id="outlined-lastName"
-                        label="Last name"
-                        variant="outlined"
-                        type="text"
-                        autoComplete="off"
-                        onChange={(e) => setLastName(e.target.value)}
-                        value={lastName}
-                        required
-                      ></TextField>
-                    </div>
-                  </div>
-                </div>
                 <div className={styles.inputField3}>
                   <div>
                     <TextField
@@ -202,7 +169,8 @@ const {setAuth} = useContext(AuthContext);
                       autoComplete="off"
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
-                      required
+                      ref={emailRef}
+                      //required
                     ></TextField>
                   </div>
                 </div>
@@ -221,43 +189,46 @@ const {setAuth} = useContext(AuthContext);
                     // type={values.showPassword ? 'text' : 'password'}
                     // value={values.password}
                     // onChange={handleChange('password')}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          //   onClick={handleClickShowPassword}
-                          //   onMouseDown={handleMouseDownPassword}
-                          edge="end"
-                        >
-                          {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
-                          <VisibilityOff />
-                        </IconButton>
-                      </InputAdornment>
-                    }
+                    // endAdornment={
+                    //   <InputAdornment position="end">
+                    //     <IconButton
+                    //       aria-label="toggle password visibility"
+                    //       //   onClick={handleClickShowPassword}
+                    //       //   onMouseDown={handleMouseDownPassword}
+                    //       edge="end"
+                    //     >
+                    //       {/* {values.showPassword ? <VisibilityOff /> : <Visibility />} */}
+                    //       <VisibilityOff />
+                    //     </IconButton>
+                    //   </InputAdornment>
+                    // }
                     label="Password"
                     autoComplete="off"
                     onChange={(e) => setPassword(e.target.value)}
                     value={password}
-                    required
+                    //required
                   />
                   {/* </div> */}
                 </FormControl>
                 <div className={styles.loginLink}>
                   <div>
                     <span className={styles.loginLinkText}>
-                      Already have an account? 
+                      Don't have an account? 
                     </span>
                     <div className={styles.loginLinkLink}>
-                      <Link
+                      {/* <Link
                         // color="rgb(0,0,0)"
                         component="button"
                         variant="body2"
                         onClick={() => {
-                          navigate("/signUp");
+                         // navigate("/signUp");
+                         console.log("test");
                         }}
-                      >
-                        Login here
-                      </Link>
+                      > */}
+                      <a href="/signup">
+                        Sign up here!
+                      </a>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
@@ -276,9 +247,9 @@ const {setAuth} = useContext(AuthContext);
                     variant="contained"
                     sx={{ backgroundColor: "#2e7d32", borderRadius: "15px" }}
                     // Put router link and navigation here?
-                    href="#"
+                    //href="#"
                   >
-                    continue
+                    Login
                   </Button>
                 </div>
               </div>

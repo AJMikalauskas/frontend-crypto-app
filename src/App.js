@@ -5,6 +5,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import './App.css';
 
 // Lazy load the pages
+const LoginPage  = React.lazy(() => import("./pages/LoginPage"));
 const SignUpPage  = React.lazy(() => import("./pages/SignUpPage"));
 const LoggedOutHomePage  = React.lazy(() => import("./pages/LoggedOutHomePage"));
 const LoggedInHomeAppBarPage  = React.lazy(() => import("./pages/LoggedInHomeAppBarPage"));
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         {/* Login/SignUp Page */}
         <Route path="signUp" element={<SignUpPage/>} />
+        <Route path="login" element={<LoginPage/>} />
 
         {/* This redirects to loggedout home page if any route that is given is whacko or not part of Routes ->
             Will Probably use ternary operator of (?:)  based on if used is logged in or out leading to loggedInHomePage or loggedOutHomePage*/}

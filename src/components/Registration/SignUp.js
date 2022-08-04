@@ -22,7 +22,7 @@ import axios from "../../api/axios";
 // Need to manually import these.
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//const LOGIN_URL = '/auth';
+const REGISTER_URL = '/register';
 
 
 // Regex Validation 
@@ -135,10 +135,34 @@ const {setAuth} = useContext(AuthContext);
 
     // new user to send up to axios/node backend of adding a new user. Uses ES6 feature of same property name as same value name.
     const newUser = { firstname, lastname, email, password };
-
-    // success when sent to server
-    console.log(firstname, lastname, email, password);
-    setSuccess(true);
+    try {
+      const response = await axios.post(REGISTER_URL,
+        JSON.stringify(newUser),
+        {
+          headers: { 'Content-Type': "application/json" },
+          withCredentials: true
+        }
+        );
+        console.log(response.data)
+        console.log(response.accessToken);
+        console.log(JSON.stringify(response));
+        setSuccess(true);
+         // clear input fields
+         setFirstname("");
+         setLastname("");
+         setEmail("");
+         setPassword("");
+         navigate("/loggedInHome")
+    } catch(err) {
+      if(!err?.response) {
+        setErrMsg('No Server Response');
+      } else if(err.response?.status === 409) {
+        setErrMsg('Email Taken');
+      } else {
+        setErrMsg('Registration Failed');
+      }
+      errRef.current.focus();
+    }
 }
 
   return (
@@ -333,10 +357,10 @@ const {setAuth} = useContext(AuthContext);
                         component="button"
                         variant="body2"
                         onClick={() => {
-                          navigate("/signUp");
+                          navigate("/login");
                         }}
                       >
-                        Login here
+                        Login here!
                       </Link>
                     </div>
                   </div>
