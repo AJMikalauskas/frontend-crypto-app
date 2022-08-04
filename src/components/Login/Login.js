@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Login.module.css";
 import {
   Button,
@@ -15,9 +15,9 @@ import technoPic from "../../images/technoBgSignUp.jpg";
 import loginSidePic from "../../images/technoWaves.jpg"
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Visibility } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/AuthProvider";
 import axios from "../../api/axios";
+import useAuth from "../../hooks/useAuth";
+import { Link as ReactRouterLink, useNavigate, useLocation} from "react-router-dom";
 const LOGIN_URL = '/login';
 
 const Login = () => {
@@ -36,7 +36,13 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
 
   // Navigate to different pages including the history back button, sign in, not sign up page,
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  // history of pages youv'e visited and current location url.
+  const location = useLocation();
+  // Get From in History using optional chaining, if non existent, send user back to loggedInHome,
+    // so if user requests to go to loggedInHomeCrypto, it will bring them there once they get validated; else bring them
+      // to loggedInHome --> For right now we only have 1 main login page.
+  const from = location.state?.from?.pathname || "/loggedInHome";
 
   // To focus the first name input on load of page
   useEffect(() => {
@@ -55,8 +61,9 @@ const Login = () => {
   };
   window.addEventListener("resize", resizeListener);
 
-  // Object destructure the setAuth from the AuthContext using the useContext() hook
-const {setAuth} = useContext(AuthContext);
+  // Object destructure the setAuth from the AuthContext using the useContext() hook -> 
+    // replace with custom hook, simpler and less code in this file
+const {setAuth} = useAuth();
   // Handles inputs of when form is submitted.
   const formSubmitHandler = async (event) => {
     event.preventDefault();
@@ -83,8 +90,8 @@ const {setAuth} = useContext(AuthContext);
     // If all goes well, form is submitted successfully and change state; set all inputs to empty strings too
     setEmail("");
     setPassword("");
-    //setSuccess(true);
-    navigate("/loggedInHome")
+    console.log(from); // "/loggedInHome"
+    navigate(from, {replace:true})
     } catch(err) {
       // setEmail("");
       // setPassword("");
