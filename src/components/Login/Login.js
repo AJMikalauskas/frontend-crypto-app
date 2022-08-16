@@ -77,7 +77,7 @@ const {setAuth} = useAuth();
             {
                 headers: {'Content-Type': 'application/json'},
                 withCredentials: true
-            })
+            });
         // axios handles the response already unlike fetch and converts from JSON; converted back to JSON below
             // If response isn't null it will try to access the data property within, else if it is null it won't do something that will result in error
         console.log(JSON.stringify(response?.data));
