@@ -162,22 +162,25 @@ const LoggedOutHome = (props) => {
                 [mainJumboTheme.breakpoints.up("sm")]: {
                   paddingTop: "48px",
                   paddingBottom: "48px",
-                  paddingLeft: "25%",
-                  maxWidth: "720px",
+                //  paddingLeft: "25%",
+                 // maxWidth: "720px",
                 },
                 [mainJumboTheme.breakpoints.up("md")]: {
                   paddingTop: "64px",
                   paddingBottom: "64px",
-                  paddingLeft: "30%",
-                  maxWidth: "1236px",
+                 // paddingLeft: "30%",
+                  //maxWidth: "1236px",
                 },
               }}
             >
               <Box
+                // sx={{
+                //   maxWidth: "100%",
+                //   position: "relative",
+                //   [mainJumboTheme.breakpoints.up("sm")]: { maxWidth: "50%" },
+                // }}
                 sx={{
-                  maxWidth: "100%",
-                  position: "relative",
-                  [mainJumboTheme.breakpoints.up("sm")]: { maxWidth: "50%" },
+                  alignContent: "center"
                 }}
               >
                 <Typography variant="h2" gutterBottom>
@@ -310,17 +313,17 @@ const LoggedOutHome = (props) => {
             width: "100%",
             margin: "0px auto",
             marginTop: "100px",
-            paddingLeft: "16px",
-            paddingRight: "16px",
+            //paddingLeft: "16px",
+           // paddingRight: "16px",
             [mainJumboTheme.breakpoints.up("sm")]: {
               paddingTop: "48px",
               paddingBottom: "48px",
-              maxWidth: "720px",
+            //  maxWidth: "720px",
             },
-            [mainJumboTheme.breakpoints.up("md")]: {
-              paddingTop: "64px",
-              paddingBottom: "64px",
-              maxWidth: "1002px",
+            [mainJumboTheme.breakpoints.up("lg")]: {
+             // paddingTop: "64px",
+              // paddingBottom: "64px",
+             // maxWidth: "1400px",
             },
           }}
         >
@@ -568,20 +571,22 @@ const LoggedOutHome = (props) => {
         sx={{
           boxShadow: 3,
           background: "#c5e3ec",
-          width: "100%",
+          width: "97%",
           margin: "0px auto",
           marginTop: "50px",
           paddingLeft: "16px",
           paddingRight: "16px",
+          marginRight: "20px",
+
           [mainJumboTheme.breakpoints.up("sm")]: {
             paddingTop: "48px",
             paddingBottom: "48px",
-            maxWidth: "720px",
+           // maxWidth: "720px",
           },
-          [mainJumboTheme.breakpoints.up("md")]: {
+          [mainJumboTheme.breakpoints.up("lg")]: {
             paddingTop: "64px",
             paddingBottom: "64px",
-            maxWidth: "1002px",
+           // maxWidth: "1px",
           },
         }}
       >
@@ -905,12 +910,12 @@ const LoggedOutHome = (props) => {
           [mainJumboTheme.breakpoints.up("sm")]: {
             paddingTop: "48px",
             paddingBottom: "48px",
-            maxWidth: "720px",
+            //maxWidth: "720px",
           },
           [mainJumboTheme.breakpoints.up("md")]: {
             paddingTop: "64px",
             paddingBottom: "64px",
-            maxWidth: "1002px",
+           // maxWidth: "1002px",
           },
         }}
       >
@@ -1026,7 +1031,7 @@ const LoggedOutHome = (props) => {
                 fontSize: "0.9375rem",
                 lineHeight: 1.75,
                 minWidth: "64px",
-                padding: "10px 22px",
+               // padding: "10px 22px",
                 transition:
                   "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
                 color: "#2e7d32",
@@ -1060,7 +1065,7 @@ const LoggedOutHome = (props) => {
           margin: "0px auto",
           padding: "32px 16px",
           [mainJumboTheme.breakpoints.up("sm")]: { maxWidth: "720px" },
-          [mainJumboTheme.breakpoints.up("md")]: { maxWidth: "1002px" },
+         [mainJumboTheme.breakpoints.up("md")]: { maxWidth: "1002px" },
         }}
       >
         <Grid

@@ -189,7 +189,7 @@ const {setAuth} = useContext(AuthContext);
                 <h2 className={styles.div3h2}>Create Login Info</h2>
               </div>
               <div className={styles.div4}>
-                <span>
+                <span className={styles.span1}>
                   We'll need your name, email address, and a unique password.
                   You'll use this login to access your portfolio.
                 </span>
@@ -212,7 +212,7 @@ const {setAuth} = useContext(AuthContext);
             <div className={styles.div3}>
               <div className={styles.div4}>
                 <div className={styles.maindiv3}>
-                  <span>
+                  <span className={styles.div4span2}>
                     Enter your first and last name which is on your ID.
                   </span>
                 </div>

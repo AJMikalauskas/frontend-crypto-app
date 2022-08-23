@@ -139,7 +139,7 @@ const {setAuth} = useAuth();
                 <h2 className={styles.div3h2}>Login Here</h2>
               </div>
               <div className={styles.div4}>
-                <span>
+                <span className={styles.span1}>
                   We'll need your email address and password.
                 </span>
               </div>

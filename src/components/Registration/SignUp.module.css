@@ -43,7 +43,7 @@
 
 .div3h2 {
     margin: 0px;
-    color: rgb(0,0,0);
+    color: rgb(255, 255, 255);
     font-family: 'Ubuntu', sans-serif;
     font-size: 44px;
     font-style: normal;
@@ -60,7 +60,7 @@
 
 .div4 span {
     margin: 0px;
-    color: rgb(0,0,0);;
+    /* color: rgb(0,0,0);; */
     font-family: 'Ubuntu', sans-serif;
     font-size: 15px;
     font-style: normal;
@@ -68,6 +68,9 @@
     letter-spacing: -0.1px;
     line-height: 24px;
     text-decoration: unset;
+}
+.span1 {
+    color: rgb(255,255,255);
 }
 
 .main {
