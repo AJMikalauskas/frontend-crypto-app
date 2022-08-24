@@ -92,6 +92,7 @@ const {setAuth} = useAuth();
     setPassword("");
     console.log(from); // "/loggedInHome"
     navigate(from, {replace:true})
+    //navigate("/loggedInHome")
     } catch(err) {
       // setEmail("");
       // setPassword("");

@@ -19,16 +19,45 @@ import Divider from "@mui/material/Divider";
 import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import LoggedInAppBar from "./LoggedInAppBar";
-import axios from "axios";
+import axios from "../../api/axios";
 import MyChart from "../TableOfCryptos/Chart";
-import { Avatar, ListItemAvatar } from "@mui/material";
+import { Avatar, ListItemAvatar, Button } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+//import {Button} from "@mui/material";
+const RETRIEVE_COIN_URL = "/coins/retrieve";
 
 const LoggedInMain = (props) => {
   // Navigating to Different URL
   let navigate = useNavigate();
   let params = useParams();
+  const [watchlist, setWatchlist] = useState([]);
+  const {auth} = useAuth();
 
+  useEffect(() => {
+    console.log(auth);
+    const {email} = auth;
+    async function fetchWatchList () {
+      try {
+        const response = await axios.post(
+          RETRIEVE_COIN_URL,
+          JSON.stringify({ email }),
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+    console.log(JSON.stringify(response?.data));
+      console.log(response);
+      const data = response?.data;
+      console.log(data.watchList)
+      setWatchlist(data.watchList);
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    fetchWatchList()
+    // Not really nedded in depdency as the one who is logging in will not chnage unless logged ouit, once persistent logged in status.
+  }, [auth])
 
   const [searchDataShowing, setSearchDataShowing] = useState(false);
   function searchUiAndDataHandler(expectedParamTrue) {
@@ -64,6 +93,14 @@ const LoggedInMain = (props) => {
   },
 ]
 console.log(params.coinName)
+const getWatchlist = (watchList) => {
+    setWatchlist(prev => [...prev, watchList]);
+    console.log(watchList)
+}
+// const addCoinsDataToDb = async () => {
+
+//  // const response = await axios();
+// }
 
  // let watchlistDummyData = ["Bob", "Joe", "Sally", "Herb", "Grey"];
 // const [coinImgStr,setCoinImgStr] = useState();
@@ -139,9 +176,10 @@ console.log(params.coinName)
               <div className={styles.divRow}>
                 <div className={styles.mainGraphTrendLists}>
                   <section className={styles.mainGraphTrendListsSection1}>
-                    <h1 className={styles.h1}>Welcome To Your Portfolio</h1>
+                    <h1 className={styles.h1}>Welcome To Your Portfolio - #1 Bitcoin Chart Below:</h1>
                     <div className={styles.portfolioMoneyGraph}>
-                    {/* <MyChart coinName={params.} daysForChart="7" /> */}
+                    {/* <MyChart coinName="bitcoin" daysForChart="7" /> */}
+                    <MyChart coinName="bitcoin" daysForChart="7" />
                     </div>
                   </section>
                   <section className={styles.trendingLists}>
@@ -155,14 +193,15 @@ console.log(params.coinName)
                                   className={styles.trendingListsHeaderText}
                                 >
                                   Trending Cryptos
+                                  {/* <Button variant="contained" onClick={addCoinsDataToDb}>Add Coins to DB</Button> */}
                                 </span>
                               </h3>
                             </div>
                           </div>
                         </header>
-                        {/* <div className={styles.tableOfCryptos}>
-                          <TableOfCryptos />
-                        </div> */}
+                        <div className={styles.tableOfCryptos}>
+                          <TableOfCryptos watchList={getWatchlist}/>
+                        </div>
                       </div>
                     </div>
                   </section>
@@ -172,53 +211,7 @@ console.log(params.coinName)
                     <div className={styles.sideBarStickyDiv1}>
                       <div></div>
                       <div className={styles.experimentalCard}>
-                        {/* <div className={styles.expCardDiv1}> */}
-                           {/* React Virtualized List */}
-                           {/* <List
-                            width={600}
-                            height={600}
-                            rowHeight={50}
-                            rowCount={watchlistDummyData.length}
-                            rowRenderer={({key, index,  isScrolling, isVisible, style}) => {
-
-                              return (
-                                <>
-                                <div key={key} style={style}>
-                                    <a className={styles.watchlistClickable} href="/loggedInHomePage">
-                                 <div className={styles.watchlistCoinSymbol}>
-                                 <div className={styles.watchlistCoinSymbolInnerDiv}>
-                                   <span className={styles.watchlistNameOfCoinSpan}>
-                                     {watchlistDummyData[index].name}
-                                   </span>
-                                   </div>
-                                   <div className={styles.watchlistAfterExtraInnerDiv}>
-                                      <div style={{ minWidth: "0px"}}>
-                                      </div>
-                                   </div>
-                                 </div>
-                                 <div className={styles.watchlistCoinGraph}>
-                                   <div>
-                                     // probably need to change to dynamic for chart so that its not 400px, send in via props //
-                                   <MyChart coinName={watchlistDummyData[index].name} daysForChart="1"/>
-                                  </div>
-                                 </div>
-                                 </a>
-                                </div>
-                              <div key={key} styles={style}>
-                                <a className={styles.watchlistClickable} href="/loggedInHomePage">
-                                <div className={styles.watchlistCoinSymbol}>
-                                <div className={styles.watchlistCoinSymbolInnerDiv}>
-                                  <span>
-                                    {watchlistDummyData[index].symbol}
-                                  </span>
-                                </div>
-                                </div>
-                                </a>
-                              </div>
-                              </>
-                              );
-                            }}
-                          />  */}
+                     
                           <Box sx={{ boxShadow: 3}}>
                           <List sx={{ bgcolor: "background.paper"}} component="nav" 
                           subheader={
@@ -227,28 +220,19 @@ console.log(params.coinName)
                             Watchlist
                           </ListSubheader>
                           }>
-                          {/* <ListItem >
-                                <ListItemButton>
-                                  <ListItemText primary="Test"/>
-                                </ListItemButton>
-                              </ListItem>
-                              <ListItem >
-                                <ListItemButton>
-                                  <ListItemText primary="Test"/>
-                                </ListItemButton>
-                              </ListItem> */}
-                             {watchlistDummyData.map((coin) => (
-                               // retrieveOnlyImages(coin.id) &&
-                               <ListItem disablePadding onClick={() => navigate(`/loggedInHome/${coin.id}`)}>
+                             { watchlist.length > 0 ? watchlist.map((coin) => (
+                               <ListItem disablePadding onClick={() => navigate(`/loggedInHome/${coin.name}`)}>
                                 <ListItemButton>
                                   <ListItemText primary={coin.name} />
                                 <ListItemAvatar>
-                                  {/* retrieveOnlyImages(coin.id) */}
                                   <Avatar alt="Crypto Mini Image" src={coin.image}/>
                                 </ListItemAvatar>
                                 </ListItemButton>
-                              </ListItem>
-                            ))}
+                              </ListItem> 
+                            )) :
+                            <>
+                            </>
+                            }
                           </List>
                           </Box>
                         {/* </div> */}

@@ -57,6 +57,9 @@
     letter-spacing: -0.33px;
     line-height: 40px;
     text-decoration: unset;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-color: rgb(227, 233, 237);
 }
 
 .portfolioMoneyGraph {

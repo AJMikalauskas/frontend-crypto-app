@@ -46,7 +46,7 @@ function App() {
       Use email instead of user as thats what we send in when we login.*/}
         <Route element={<RequireAuth/>} >
           {/* Routes of actually being logged in -> protect these below routes */}
-          <Route path="loggedInHome" element={<LoggedInHomeAppBarPage />}>
+          <Route path="loggedInHome" element={<LoggedInHomePage />}>
             {/* Specific Crypto Page, Not Overview/Home Page */}
             <Route path="portfolio" element={<LoggedInHomePage />} />
             <Route path=":coinName" element={<SpecificCryptoPage />} />
