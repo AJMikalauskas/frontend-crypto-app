@@ -211,7 +211,6 @@ const getWatchlist = (watchList) => {
                     <div className={styles.sideBarStickyDiv1}>
                       <div></div>
                       <div className={styles.experimentalCard}>
-                     
                           <Box sx={{ boxShadow: 3}}>
                           <List sx={{ bgcolor: "background.paper"}} component="nav" 
                           subheader={

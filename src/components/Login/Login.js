@@ -107,7 +107,7 @@ const {setAuth} = useAuth();
             setErrMsg("Missing Username or Password")
         } else if(err.response?.status === 401) 
         {
-            setErrMsg("Invalid email or password. Please try again.")
+            setErrMsg("Invalid email or password(Unauthorized). Please try again.")
         } else {
             setErrMsg("Login Failed")
         }
