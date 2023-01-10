@@ -83,7 +83,7 @@ const LoggedInAppBar = (props) => {
   // };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-    console.log(event.currentTarget);
+    //console.log(event.currentTarget);
   };
 
   // const handleOpenSearchMenu = (event) => {

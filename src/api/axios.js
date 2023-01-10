@@ -1,9 +1,11 @@
 import axios from 'axios';
-//const BASE_URL = 'http://localhost:3500'; //--> 'https://crypto-app-demo-test.herokuapp.com/';
-const BASE_URL = 'https://crypto-app-demo-test.herokuapp.com/' ;
+//let BASE_URL = 'http://localhost:3500'; //--> 'https://crypto-app-demo-test.herokuapp.com/';
+ //BASE_URL = 'https://crypto-app-demo-test.herokuapp.com/' ;
+let BASE_URL = 'https://tame-crow-loincloth.cyclic.app/';
 
 export default axios.create({
     baseURL: BASE_URL,
+    mode: "no-cors"
     // headers: {
     //     'Access-Control-Allow-Origin' : '*'
     // }

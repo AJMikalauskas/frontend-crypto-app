@@ -30,7 +30,7 @@ const SpecificCrypto = (props) => {
       setSearchDataResults(searchResults);
     }
     
-    console.log(params.coinName);
+    //console.log(params.coinName);
     const capitalizedCoinName = params.coinName[0].toUpperCase() + params.coinName.substring(1);
     return (
         <>

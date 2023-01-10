@@ -35,8 +35,8 @@ const PersistLogin = () => {
 
     // To see what's going on with accessToken and loading state whne we replicate going to another page or refreshing the page.
     useEffect(() => {
-        console.log(`isLoading: ${isLoading}`);
-        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
+      //  console.log(`isLoading: ${isLoading}`);
+      //  console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
     }, [auth?.accessToken,isLoading])
 
     return (

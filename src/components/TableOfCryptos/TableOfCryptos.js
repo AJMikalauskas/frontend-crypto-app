@@ -8,13 +8,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import MyChart from "./Chart";
-import { Avatar, Button, ListItemAvatar } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
-// import Chart from 'react-google-charts';
 const ADD_COIN_URL = "/coins/add";
-//const ADD_COIN_TO_DB_URL = "/coins/addToDb";
 const RETRIEVE_COINS_URL = "/coins/coinsRetrieve";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -40,104 +37,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const TableOfCryptos = (props) => {
   const { auth } = useAuth();
   const [coinsData, setCoinsData] = useState([]);
-  // async function fetchCoins() {
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       "X-RapidAPI-Host": "coingecko.p.rapidapi.com",
-  //       "X-RapidAPI-Key": "3fb132f0a4msh01884afa74b3096p1653c7jsnd2db1dce89cf",
-  //       //'93da5c882bmshca883f546251ac6p1f0c49jsn63020d879234'
-  //     },
-  //   };
-
-  //   try {
-  //     const response = await fetch(
-  //       "https://coingecko.p.rapidapi.com/coins/markets?vs_currency=usd&price_change_percentage=1h%2C24h%2C7d&page=1&per_page=10&order=market_cap_desc",
-  //       options
-  //     );
-  //     // .then(response => response.json())
-  //     const data = await response.json();
-  //     if (data.length !== 0) {
-  //       console.log(data);
-  //      // data.map((coin) => addCoinsDataToDb(coin));
-  //     //  setCoinsData(data);
-  //       return;
-  //     }
-  //     // if()
-  //   } catch (error) {
-  //     if (error.message.length > 0) {
-  //       console.log(error.message);
-  //       alert(error.message);
-  //     } else {
-  //       alert("GET Call Failed!");
-  //     }
-  //   }
-  // }
-
-//   const addCoinsDataToDb = async(coinData) => {
-//     try {
-//     const response = await axios.post(
-//       ADD_COIN_TO_DB_URL, 
-//       JSON.stringify( coinData ),
-//       {
-//         headers: {"Content-Type": "application/json"},
-//       }
-//     );
-//     //console.log(response)
-//   } catch(err) {
-//     console.log(err);
-//   }
-// }
-
 
   const retrieveCoinsDataFromDB = async(filterWordStorage) => {
     try {
     const response = await axios(RETRIEVE_COINS_URL);
-    //console.log(response.data.coins);
-    //let coinsSortedDesc = 
     response.data.coins.sort((a,b) => {return a.market_cap_rank-b.market_cap_rank });
-    //console.log(coinsSortedDesc);
-    if(filterWordStorage.length > 0) 
+    if(!!filterWordStorage && filterWordStorage.length > 0) 
     {
       setCoinsData(response.data.coins.filter(coin => coin.id.includes(filterWordStorage.toLowerCase())))
     } else {
       setCoinsData(response.data.coins);
     }
   } catch(err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
 
   // Fetch Data/Coins from the backend
   useEffect(() => {
-    //fetchCoins();
-    //addCoinsDataToDB(coinsData);
     retrieveCoinsDataFromDB();
   }, []);
 
-  const [prevFilter, setPrevFilter] = useState('');
-  const updateCoinDataBySearch = (filterWord) => {
-    //console.log(filterWord.length);
-
-    // This logic for surely could be change, but we don't want to call unneccessarily on the start of the page,
-        // To handle for deleted characters, keep track of previous filter char --> this logic could be optimized 
-    if(filterWord === '' || prevFilter.length > filterWord.length) {
-      retrieveCoinsDataFromDB(filterWord);
-    } else {
-    setCoinsData(prev => {
-      console.log(prev);
-      console.log(...prev);
-      setPrevFilter(filterWord);
-      const filteredData = prev.filter(coin => coin.id.includes(filterWord.toLowerCase()));
-      console.log(filteredData);
-      return filteredData;
-    })
-  }
-  }
-
   useEffect(() => {
-    console.log(props.searchFilter);
-    updateCoinDataBySearch(props.searchFilter);
+    //console.log(props.searchFilter);
   }, [props.searchFilter]);
 
   const addCoinToWatchlist = async (coinData) => {
@@ -151,10 +73,10 @@ const TableOfCryptos = (props) => {
         }
       );
 
-      console.log(JSON.stringify(response?.data));
+      JSON.stringify(response?.data);
       props.watchList(coinData);
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     }
   };
   // Format a current price from just a number to currency
@@ -166,28 +88,14 @@ const TableOfCryptos = (props) => {
 
   // Format just a number to a percentage and add coloring too?
   const formatPercent = (numToConvert) => {
-    //console.log(numToConvert);
     //let str = numToConvert.toFixed(2);
-    //console.log(str);
     const convertedNum = `${numToConvert.toFixed(2)}%`;
     if (numToConvert < 0) {
       return <div style={{ color: "#b90e0a" }}>{convertedNum}</div>;
     }
     return <div style={{ color: "#2e7d32" }}>{convertedNum}</div>;
   };
-
-  // function createData(name, calories, fat, carbs, protein) {
-  //     return { name, calories, fat, carbs, protein };
-  //   }
-
-  //   const rows = [
-  //     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  //     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //     createData('Eclair', 262, 16.0, 24, 6.0),
-  //     createData('Cupcake', 305, 3.7, 67, 4.3),
-  //     createData('Gingerbread', 356, 16.0, 49, 3.9),
-  //   ];
-
+  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">

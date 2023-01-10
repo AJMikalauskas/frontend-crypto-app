@@ -64,8 +64,8 @@ const LoggedInMain = (props) => {
     //console.log(JSON.stringify(response.data));
       //console.log(response);
       const data = response?.data;
-      console.log(data.watchList);
-      // if isMounted is true, set watchlist, this si if the reuest is successful and not unmounted due to aborted/cancelled request.
+     // console.log(data.watchList);
+      // if isMounted is true, set watchlist, this is if the request is successful and not unmounted due to aborted/cancelled request.
      isMounted && setWatchlist(data.watchList);
       } catch(err) {
         console.error(err);
@@ -95,7 +95,7 @@ return () => {
   function setSearchVal (event) {
     //console.log(searchResults)
     //console.log(searchDataShowing);
-    console.log(event.target.value);
+   // console.log(event.target.value);
     //filterVal = event.target.value;
     //console.log(filterVal);
     setSearchFilter(event.target.value);
@@ -125,7 +125,7 @@ return () => {
 //console.log(params.coinName)
 const getWatchlist = (watchList) => {
     setWatchlist(prev => [...prev, watchList]);
-    console.log(watchList)
+   // console.log(watchList)
 }
 
 // const formatPrice = new Intl.NumberFormat("en-US", {
@@ -153,8 +153,8 @@ const getWatchlist = (watchList) => {
 
 // Delete requesta are a bit differnet than POST requests with axios.
 const removeCoinFromDb = async(name) => {
-  console.log(email);
-  console.log(name);
+  //console.log(email);
+  //console.log(name);
   try {
   const response = await axios.delete( DELETE_COIN_FROM_WATCHLIST_URL, {
     headers: { "Content-Type": "application/json" },
@@ -163,10 +163,10 @@ const removeCoinFromDb = async(name) => {
       name 
     }
   });
-    console.log("response from axios req",response.data);
+    //console.log("response from axios req",response.data);
     setWatchlist(response.data.watchList);
   } catch(err) {
-    console.log(err);
+    throw new Error(err);
   }
 }
   return (
@@ -259,7 +259,6 @@ const removeCoinFromDb = async(name) => {
                                 >
                                   Trending Cryptos
                                    <br/>
-                                   {/* <Button variant="contained" onClick={() => {refresh(); console.log(auth)}}>Refresh?</Button>  */}
                                 </span>
                               </h3>
                             </div>

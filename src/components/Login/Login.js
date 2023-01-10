@@ -76,11 +76,11 @@ const {setAuth, persist, setPersist } = useAuth();
             JSON.stringify({email, password}),
             {
                 headers: {'Content-Type': 'application/json'},
-                withCredentials: true
+                //withCredentials: true
             });
         // axios handles the response already unlike fetch and converts from JSON; converted back to JSON below
             // If response isn't null it will try to access the data property within, else if it is null it won't do something that will result in error
-        console.log(JSON.stringify(response?.data));
+        JSON.stringify(response?.data);
         // Optional chaining by(?) -> Codes/Roles are made up, not sure exactly what they are.
         const accessToken  = response?.data?.accessToken;
         // Could be better, need to change backend for better access to things
@@ -91,10 +91,7 @@ const {setAuth, persist, setPersist } = useAuth();
     //togglePersist();
     setEmail("");
     setPassword("");
-    //console.log(from); // "/loggedInHome"
     navigate(from, {replace:true})
-    console.log(from);
-    //navigate("/loggedInHome")
     } catch(err) {
       // setEmail("");
       // setPassword("");
@@ -251,7 +248,7 @@ const {setAuth, persist, setPersist } = useAuth();
                         variant="body2"
                         onClick={() => {
                          // navigate("/signUp");
-                         console.log("test");
+                         ("test");
                         }}
                       > */}
                       <a href="/signup">

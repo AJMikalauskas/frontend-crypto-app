@@ -38,7 +38,7 @@ describe("Login call to backend should give a response", () => {
     let actual = response.data;
 
     // Assert
-    console.log(actual);
+   // console.log(actual);
     expect(actual.accessToken).not.toBeNull();
     expect(actual.roles).not.toBeNull();
   });

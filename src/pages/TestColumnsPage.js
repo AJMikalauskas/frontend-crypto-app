@@ -30,14 +30,9 @@ const TestColumnsPage = (props) => {
       setSearchDataResults(searchResults);
     }
     
-    console.log(params.coinName);
+    //console.log(params.coinName);
     return (
         <>
-            {/* <h1 style={{ marginTop: "500px"}}>{specificcryptoName}</h1> */}
-            {/* <LoggedInAppBar
-        showSearch={searchUiAndDataHandler}
-        searchResults={settingSearchResultsData}
-      /> */}
       <div className={styles.wrappingDiv1}>
         <div className={styles.wrappingDiv2}>
           <Container className={styles.main}>

@@ -75,8 +75,8 @@ const SignUp = () => {
   useEffect(() => {
     // will return boolean value based on .test() method from regex.
     const result = NAME_REGEX.test(firstname);
-    console.log(result);
-    console.log(`${firstname}`);
+    //console.log(result);
+    //console.log(`${firstname}`);
     setValidFirstname(result);
     setErrShowing(firstname && !validFirstname && firstnameFocus)
   }, [firstname, firstnameFocus, validFirstname]);
@@ -85,24 +85,24 @@ const SignUp = () => {
     useEffect(() => {
       // will return boolean value based on .test() method from regex.
       const result = NAME_REGEX.test(lastname);
-      console.log(result);
-      console.log(`${lastname}`);
+     // console.log(result);
+     // console.log(`${lastname}`);
       setValidLastname(result);
     }, [lastname])
 
   // validity of email
   useEffect(() => {
     const result = EMAIL_REGEX.test(email);
-    console.log(result);
-    console.log(`${email}`);
+  //  console.log(result);
+   // console.log(`${email}`);
     setValidEmail(result);
   }, [email])
 
   // validity of password
   useEffect(() => {
     const result = PASSWORD_REGEX.test(password);
-    console.log(result);
-    console.log(`${password}`);
+  //  console.log(result);
+   // console.log(`${password}`);
     setValidPassword(result);
   }, [password])
 
@@ -143,9 +143,9 @@ const {setAuth} = useContext(AuthContext);
           withCredentials: true
         }
         );
-        console.log(response.data)
-        console.log(response.accessToken);
-        console.log(JSON.stringify(response));
+        // console.log(response.data)
+        // console.log(response.accessToken);
+        // console.log(JSON.stringify(response));
         setSuccess(true);
          // clear input fields
          setFirstname("");
